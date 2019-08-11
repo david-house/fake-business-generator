@@ -1,3 +1,5 @@
+using System;
+
 namespace BusinessNameGenerator.Models
 {
 
@@ -13,15 +15,20 @@ namespace BusinessNameGenerator.Models
 
         public PlaceName() { }
 
-        public PlaceName(string name, string state, float latitude, float longitude, string zipCode, string zipState, string zipCity)
+        public PlaceName(string[] elements)
         {
-            Name = name;
-            State = state;
-            Latitude = latitude;
-            Longitude = longitude;
-            ZipCode = zipCode;
-            ZipState = zipState;
-            ZipCity = zipCity;
+            Name = elements[0];
+            State = elements[1];
+            Latitude = Convert.ToSingle(elements[2]);
+            Longitude = Convert.ToSingle(elements[3]);
+            ZipCode = elements[4];
+            ZipState = elements[5];
+            ZipCity = elements[6];
+        }
+
+        public override string ToString()
+        {
+            return $"{Name}, {State}";
         }
 
     }
