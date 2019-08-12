@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Globalization;
+using System.Collections.Generic;
 using System.IO;
-using System.Runtime.ExceptionServices;
 using BusinessNameGenerator.Models;
+using System.Diagnostics;
 
 namespace BusinessNameGenerator
 {
@@ -10,46 +10,24 @@ namespace BusinessNameGenerator
     {
         static void Main(string[] args)
         {
-            var placeNames = PlaceNameLoader.Load("Data/place_names.txt");
-            var numberOfPlaceNames = placeNames.Length;
-            
-            var surnames = SurnameLoader.Load("Data/surnames_us.txt");
-            var numberOfSurnames = surnames.Length;
+            var businesses = new List<BusinessNameComponents>();
 
-            var suffixes = File.ReadAllLines("Data/business_suffixes.txt");
-            var numberOfSuffixes = suffixes.Length;
-
-            var prefixes = File.ReadAllLines("Data/business_prefixes.txt");
-            var numberOfPrefixes = prefixes.Length;
-
-            var formsOfBusiness = File.ReadAllLines("Data/legal_control_words.txt");
-            var numberOfFormsOfBusiness = formsOfBusiness.Length;
-
-            var random = new Random();
-            
-
-            for (int i = 0; i < 100; i++)
+            var nameComponentSources = new NameComponentSources()
             {
-                var businessName = new BusinessNameComponents()
-                {
-                    PlaceName = placeNames[random.Next(numberOfPlaceNames)].Name,
-                    Surname1 = surnames[random.Next(numberOfSurnames)],
-                    Surname2 = surnames[random.Next(numberOfSurnames)],
-                    Prefix = prefixes[random.Next(numberOfPrefixes)],
-                    Suffix = suffixes[random.Next(numberOfSuffixes)],
-                    LegalWord = formsOfBusiness[random.Next(numberOfFormsOfBusiness)],
-                    NameTemplateIds = new int[]
-                    {
-                        random.Next(5),
-                        random.Next(5),
-                        random.Next(5)
-                    }
-                };
+                PlaceNames = PlaceNameLoader.Load("Data/place_names.txt"),
+                Surnames = SurnameLoader.Load("Data/surnames_us.txt"),
+                Suffixes = File.ReadAllLines("Data/business_suffixes.txt"),
+                Prefixes = File.ReadAllLines("Data/business_prefixes.txt"),
+                FormsOfBusiness = File.ReadAllLines("Data/legal_control_words.txt")
+            };
 
- 
+            var sw = Stopwatch.StartNew();
+            int n = 10000000;
 
-                Console.WriteLine($"{businessName[0]} {businessName[1]} {businessName[2]}");
-            }
+            FakeBusinessWriter.WriteRecords(nameComponentSources, n, "output.txt");
+
+            sw.Stop();
+            Console.WriteLine($"Created {n} businesses in {sw.ElapsedMilliseconds}ms");
         }
     }
 }
