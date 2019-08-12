@@ -9,6 +9,9 @@ namespace BusinessNameGenerator
     {
         static void Main(string[] args)
         {
+            var outputPath = "output.txt";
+            var n = 10000000;
+
             var nameComponentSources = new NameComponentSources()
             {
                 PlaceNames = PlaceNameLoader.Load("Data/place_names.txt"),
@@ -19,11 +22,9 @@ namespace BusinessNameGenerator
             };
 
             var sw = Stopwatch.StartNew();
-            int n = 10000000;
-
-            FakeBusinessWriter.WriteRecords(nameComponentSources, n, "output.txt");
-
+            FakeBusinessWriter.WriteRecords(nameComponentSources, n, outputPath);
             sw.Stop();
+
             Console.WriteLine($"Created {n} businesses in {sw.ElapsedMilliseconds}ms");
         }
     }
