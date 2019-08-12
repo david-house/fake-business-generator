@@ -13,10 +13,7 @@ namespace BusinessNameGenerator.Models
         public string ZipCode { get; set; }
         public string ZipState { get; set; }
         public string ZipCity { get; set; }
-        private TextInfo TextInfo = new CultureInfo("en-US", false).TextInfo;
-
-        public PlaceName() { }
-        
+        private readonly TextInfo _textInfo = new CultureInfo("en-US", false).TextInfo;
 
         public PlaceName(string[] elements)
         {
@@ -26,7 +23,7 @@ namespace BusinessNameGenerator.Models
             Longitude = Convert.ToSingle(elements[3]);
             ZipCode = elements[4];
             ZipState = elements[6];
-            ZipCity = TextInfo.ToTitleCase(elements[5].ToLower());
+            ZipCity = _textInfo.ToTitleCase(elements[5].ToLower());
         }
 
         public override string ToString()

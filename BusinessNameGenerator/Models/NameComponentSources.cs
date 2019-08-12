@@ -11,7 +11,7 @@ namespace BusinessNameGenerator.Models
         public string[] Prefixes { get; set; }
         public string[] FormsOfBusiness { get; set; }
         public Dictionary<string, HashSet<string>> NamesUsedByState = new Dictionary<string, HashSet<string>>();
-        public Dictionary<string, HashSet<string>> NamesUsedByZIPCode = new Dictionary<string, HashSet<string>>();
+        public Dictionary<string, HashSet<string>> NamesUsedByZipCode = new Dictionary<string, HashSet<string>>();
 
         private bool AddIfUnique(BusinessNameComponents businessNameComponents)
         {
@@ -24,21 +24,21 @@ namespace BusinessNameGenerator.Models
                 NamesUsedByState[state] = new HashSet<string>();
             var namesForState = NamesUsedByState[state];
 
-            if (!NamesUsedByZIPCode.ContainsKey(zipCode))
-                NamesUsedByZIPCode[zipCode] = new HashSet<string>();
-            var namesForZIPCode = NamesUsedByZIPCode[zipCode];
+            if (!NamesUsedByZipCode.ContainsKey(zipCode))
+                NamesUsedByZipCode[zipCode] = new HashSet<string>();
+            var namesForZipCode = NamesUsedByZipCode[zipCode];
 
             if (namesForState.Contains(businessNameComponents[0]) ||
-                namesForZIPCode.Contains(businessNameComponents[1]))
+                namesForZipCode.Contains(businessNameComponents[1]))
                 return false;
 
             namesForState.Add(businessNameComponents[0]);
-            namesForZIPCode.Add(businessNameComponents[1]);
+            namesForZipCode.Add(businessNameComponents[1]);
 
             return true;
         }
 
-        private Random Random { get; set; } = new Random();
+        private Random Random { get; } = new Random();
 
         public BusinessNameComponents GenerateNewBusinessName()
         {

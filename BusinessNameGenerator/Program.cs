@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using BusinessNameGenerator.Models;
 using System.Diagnostics;
@@ -10,8 +9,6 @@ namespace BusinessNameGenerator
     {
         static void Main(string[] args)
         {
-            var businesses = new List<BusinessNameComponents>();
-
             var nameComponentSources = new NameComponentSources()
             {
                 PlaceNames = PlaceNameLoader.Load("Data/place_names.txt"),
